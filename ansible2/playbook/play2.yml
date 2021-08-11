@@ -1,0 +1,20 @@
+---
+- name: General Configurations Playbook
+  hosts: routers
+
+  tasks:
+
+  - name: dynamically configuring ospf using jinja templating
+    template:
+      src: /templates/jinja.j2
+      dest: /etc/ansible/{{ item.hostname }}.txt
+    with_items:
+      "{{ routers }}"
+    
+  - name: Assign configuration to device
+    cli_config:
+      config: "{{ lookup('file', '/etc/ansible/{{ item.hostname }}.txt') }}"
+    with_items:
+      "{{ routers }}"
+      diff_match: none
+...

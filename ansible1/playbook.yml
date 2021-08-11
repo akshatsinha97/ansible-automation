@@ -1,0 +1,41 @@
+---
+- name: General Configurations Playbook
+  hosts: routers
+
+  tasks:
+
+  - name: Gather only the config and default facts
+    ios_facts:
+      gather_subset:
+        - config
+        
+  - name: Add Login Banner
+    ios_banner:
+      banner: login
+      text: |
+        this is my login banner
+        that contains a multiline
+        string and configured
+        by ansible tool.
+      state: present
+
+  - name: run show version and check to see if output contains IOS
+    ios_command:
+      commands: 
+        - show version
+        - show ip interface brief
+      wait_for: 
+        - result[0] contains IOS-XE
+        - result[1] contains Interface
+        
+    register: config
+  - debug: 
+      msg="{{ config.stdout_lines }}"
+
+  - name: Backup current switch config (ios)
+    ios_config:
+      backup: yes
+      backup_options:
+        filename: backup.cfg
+        dir_path: /home/user
+...

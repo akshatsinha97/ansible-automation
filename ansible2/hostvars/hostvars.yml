@@ -1,0 +1,21 @@
+---
+routers:
+  - hostname: router1
+    process_id: 1
+    network:
+      - name: 10.16.0.0
+        wildcard: 0.0.255.255
+        area: 0
+      - name: 172.16.0.0
+        wildcard: 0.0.255.255
+        area: 1
+
+    interface:
+      - name: fastEthernet 0/0
+        ip_addr: 10.16.0.1 255.255.0.0
+        desc: fa 0/0 configured via ansible template
+
+      - name: fastEthernet 0/1
+        ip_addr: 172.16.0.1 255.255.0.0
+        desc: fa 0/1 configured via ansible template
+...

@@ -1,0 +1,10 @@
+
+router ospf {{ item.process_id }}
+network {{ item.network.name }} {{ item.network.wildcard }} {{ item.network.area }}
+exit
+
+interface {{ item.interface.name }}
+description {{ item.interface.desc }}
+ip address {{ item.interface.ip_addr }}
+no shutdown
+exit
